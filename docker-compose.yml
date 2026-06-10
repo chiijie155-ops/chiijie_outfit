@@ -16,6 +16,18 @@ services:
     ports:
       - '6379:6379'
 
+  web:
+    build:
+      context: ./services/web
+    ports:
+      - '3000:3000'
+    environment:
+      DATABASE_URL: postgres://ecommerce_user:changeme123@postgres:5432/ecommerce
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+
   identity:
     build:
       context: ./services/identity
