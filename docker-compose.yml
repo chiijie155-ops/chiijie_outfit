@@ -1,0 +1,92 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ecommerce_user
+      POSTGRES_PASSWORD: changeme123
+      POSTGRES_DB: ecommerce
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - '6379:6379'
+
+  identity:
+    build:
+      context: ./services/identity
+    ports:
+      - '3001:3000'
+    environment:
+      DATABASE_URL: postgres://ecommerce_user:changeme123@postgres:5432/ecommerce
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+  catalog:
+    build:
+      context: ./services/catalog
+    ports:
+      - '3002:3000'
+    environment:
+      DATABASE_URL: postgres://ecommerce_user:changeme123@postgres:5432/ecommerce
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+  inventory:
+    build:
+      context: ./services/inventory
+    ports:
+      - '3003:3000'
+    environment:
+      DATABASE_URL: postgres://ecommerce_user:changeme123@postgres:5432/ecommerce
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+  order:
+    build:
+      context: ./services/order
+    ports:
+      - '3004:3000'
+    environment:
+      DATABASE_URL: postgres://ecommerce_user:changeme123@postgres:5432/ecommerce
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+  payment:
+    build:
+      context: ./services/payment
+    ports:
+      - '3005:3000'
+    environment:
+      DATABASE_URL: postgres://ecommerce_user:changeme123@postgres:5432/ecommerce
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+  notification:
+    build:
+      context: ./services/notification
+    ports:
+      - '3006:3000'
+    environment:
+      DATABASE_URL: postgres://ecommerce_user:changeme123@postgres:5432/ecommerce
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+volumes:
+  postgres_data:

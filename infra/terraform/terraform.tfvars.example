@@ -1,0 +1,23 @@
+aws_region = "ap-southeast-1"
+environment = "staging"
+cluster_name = "chiijie-outfit-cluster"
+db_username = "ecommerce_user"
+# Use a secure secret for production
+db_password = "changeme123"
+
+# EKS node group sizing
+eks_instance_types = ["t3.medium"]
+eks_desired_size = 2
+eks_min_size = 2
+eks_max_size = 4
+
+# RDS sizing
+rds_instance_class = "db.t3.medium"
+rds_allocated_storage = 100
+
+# Redis sizing
+redis_node_type = "cache.t4g.small"
+redis_number_cache_clusters = 1
+
+# Enable KMS encryption for RDS/Redis (true/false)
+enable_kms = false

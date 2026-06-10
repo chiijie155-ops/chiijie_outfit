@@ -1,0 +1,50 @@
+@startuml
+title Enterprise E-Commerce Architecture
+
+actor User
+actor Admin
+
+node "CDN / Edge" as CDN
+node "API Gateway / WAF" as APIGW
+node "BFF / Edge Functions" as BFF
+
+package "Service Mesh" {
+  node "Identity Service" as Identity
+  node "Catalog Service" as Catalog
+  node "Inventory Service" as Inventory
+  node "Order Service" as Order
+  node "Payment Service" as Payment
+  node "Notification Service" as Notification
+  node "Analytics Service" as Analytics
+}
+
+database "PostgreSQL / Aurora" as DB
+database "Redis Cluster" as Redis
+node "Kafka / Event Stream" as Kafka
+node "RabbitMQ / SQS" as MQ
+node "Payment Gateway" as Gateway
+
+User --> CDN : request page / api
+CDN --> APIGW : cached asset / api request
+APIGW --> BFF : route request
+BFF --> Catalog : product data
+BFF --> Inventory : stock status
+BFF --> Identity : auth validation
+
+Order --> Inventory : reserve stock
+Inventory --> Redis : reserve counter
+Inventory --> DB : update inventory
+Order --> DB : persist order
+Payment --> Gateway : create payment intent
+Gateway --> Payment : webhook callback
+Payment --> DB : update payment status
+Payment --> Order : publish payment.completed
+Order --> Kafka : order.created / order.confirmed
+Notification --> MQ : email / invoice tasks
+Analytics --> Kafka : event ingestion
+
+DB --> Kafka : event publish
+Admin --> APIGW : admin dashboard
+Admin --> BFF : metrics / control
+
+@enduml

@@ -1,0 +1,11 @@
+{
+  "name": "chiijie-outfit-root",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "generate-openapi-stub": "node scripts/generate-openapi-stub.js"
+  },
+  "devDependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}
