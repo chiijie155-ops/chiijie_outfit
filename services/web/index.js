@@ -9,7 +9,7 @@ app.get('/health', (req, res) => {
 });
 
 app.get('/api/products', async (req, res) => {
-  const catalogUrl = process.env.CATALOG_URL || 'http://catalog:3000/api/products';
+  const catalogUrl = process.env.CATALOG_URL || 'http://catalog:3000/api/v1/products';
   try {
     const response = await fetch(catalogUrl, { method: 'GET' });
     if (!response.ok) throw new Error('upstream_error');

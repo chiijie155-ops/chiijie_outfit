@@ -24,7 +24,7 @@ services:
     environment:
       DATABASE_URL: postgres://ecommerce_user:changeme123@postgres:5432/ecommerce
       REDIS_URL: redis://redis:6379
-      CATALOG_URL: http://catalog:3000/api/products
+      CATALOG_URL: http://catalog:3000/api/v1/products
     depends_on:
       - postgres
       - redis

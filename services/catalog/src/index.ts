@@ -8,7 +8,11 @@ app.get('/healthz', (_req, res) => {
 });
 
 app.get('/api/v1/products', (_req, res) => {
-  res.json({ message: 'stub product listing endpoint' });
+  res.json([
+    { id: 1, name: 'Slim Fit Shirt', price: 29.99, sku: 'SHIRT-001' },
+    { id: 2, name: 'Denim Jeans', price: 49.99, sku: 'JEANS-002' },
+    { id: 3, name: 'Sneakers', price: 79.99, sku: 'SHOES-003' }
+  ]);
 });
 
 const port = process.env.PORT || 3000;
