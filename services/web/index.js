@@ -8,13 +8,21 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', service: 'web' });
 });
 
-app.get('/api/products', (req, res) => {
-  // Sample static product list — replace with real backend calls
-  res.json([
-    { id: 1, name: 'Slim Fit Shirt', price: 29.99 },
-    { id: 2, name: 'Denim Jeans', price: 49.99 },
-    { id: 3, name: 'Sneakers', price: 79.99 }
-  ]);
+app.get('/api/products', async (req, res) => {
+  const catalogUrl = process.env.CATALOG_URL || 'http://catalog:3000/api/products';
+  try {
+    const response = await fetch(catalogUrl, { method: 'GET' });
+    if (!response.ok) throw new Error('upstream_error');
+    const data = await response.json();
+    return res.json(data);
+  } catch (err) {
+    // Fallback to static list when catalog service is unavailable
+    return res.json([
+      { id: 1, name: 'Slim Fit Shirt', price: 29.99 },
+      { id: 2, name: 'Denim Jeans', price: 49.99 },
+      { id: 3, name: 'Sneakers', price: 79.99 }
+    ]);
+  }
 });
 
 app.post('/api/checkout', (req, res) => {
