@@ -34,16 +34,12 @@ app.post('/api/checkout', (req, res) => {
   return res.json({ success: true, order_id: `order_${Date.now()}` });
 });
 
-app.get('/', (req, res) => {
-  res.send(`
-    <html>
-      <head><title>Chiijie Outfit</title></head>
-      <body>
-        <h1>Welcome to Chiijie Outfit (Demo)</h1>
-        <p>API endpoints: <a href="/api/products">/api/products</a>, <a href="/health">/health</a></p>
-      </body>
-    </html>
-  `);
+// Serve static frontend from public/
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(port, () => {

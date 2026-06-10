@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Chiijie Outfit</title>
+    <style>
+      body { font-family: Arial, sans-serif; padding: 1rem; }
+      .product { border: 1px solid #ddd; padding: 0.5rem; margin: 0.5rem 0; }
+      .products { max-width: 800px; }
+      .cart { position: fixed; right: 1rem; top: 1rem; background: #fff; border: 1px solid #ccc; padding: 1rem; width: 220px; }
+      button { cursor: pointer; }
+    </style>
+  </head>
+  <body>
+    <h1>Chiijie Outfit — Demo Store</h1>
+    <div id="app">
+      <div class="products" id="products"></div>
+      <button id="refresh">Refresh Products</button>
+    </div>
+
+    <div class="cart" id="cart">
+      <h3>Cart</h3>
+      <ul id="cart-items"></ul>
+      <div>Total: $<span id="cart-total">0.00</span></div>
+      <button id="checkout">Checkout</button>
+      <div id="checkout-result"></div>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
