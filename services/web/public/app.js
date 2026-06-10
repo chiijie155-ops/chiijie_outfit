@@ -37,9 +37,21 @@ function renderCart() {
 async function loadProducts() {
   try {
     const res = await fetch('/api/products');
+    if (!res.ok) throw new Error('failed_fetch');
     products = await res.json();
   } catch (err) {
-    products = [];
+    products = [
+      { id: 1, name: 'Slim Fit Shirt', price: 29.99 },
+      { id: 2, name: 'Denim Jeans', price: 49.99 },
+      { id: 3, name: 'Sneakers', price: 79.99 }
+    ];
+    const banner = document.createElement('div');
+    banner.style.background = '#fffae6';
+    banner.style.border = '1px solid #ffe58f';
+    banner.style.padding = '0.75rem';
+    banner.style.marginBottom = '1rem';
+    banner.textContent = 'Backend API tidak dapat dijangkau, menampilkan produk demo secara lokal.';
+    document.getElementById('app').insertBefore(banner, productsEl);
   }
   renderProducts();
 }
